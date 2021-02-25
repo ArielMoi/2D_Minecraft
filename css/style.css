@@ -32,6 +32,10 @@
 .tool-box--right-side {
   padding: 30px;
   background-color: black;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
 }
 
 input[type="checkbox"] {
@@ -63,8 +67,14 @@ input[type="checkbox"] {
   width: 40px;
   height: 40px;
   margin: 20px auto;
+  color: white;
+  text-align: center;
+  cursor: pointer;
 }
-/*  */
+
+.item h4 {
+  margin-top: 10px;
+}
 
 /* player materials */
 .cloud {
