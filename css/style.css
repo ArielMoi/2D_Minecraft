@@ -16,10 +16,15 @@
   background-size: cover;
   width: 100vw;
   text-align: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.entrence-screen > div {
+  margin-top: 50%;
 }
 
 .entrence-screen button {
-  margin: 16% 10% 0;
   cursor: pointer;
   padding: 10px;
   padding-right: 20px;
@@ -31,6 +36,51 @@
   border: 1px solid #fff;
   box-shadow: 0 0 5px black;
   color: #fff;
+}
+
+.instruction-window {
+  background: rgba(0, 0, 0, 0.712);
+  text-align: center;
+  color: #fff;
+  margin: 5px;
+  visibility: hidden;
+}
+
+.instruction-window > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.instruction-window h1 {
+  grid-column: 1 / span 3;
+}
+
+.instruction-window div > img {
+  width: 40px;
+}
+
+.tools,
+.materials,
+.arrows {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.tools > *,
+.materials > * {
+  margin-top: 30px;
+}
+
+.arrows i {
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.instruction-window p {
+  grid-column: 1 / span 3;
+  padding: 30px;
 }
 
 /* viewed screen */
@@ -49,6 +99,7 @@
   display: grid;
   grid-template-columns: repeat(25, 1fr);
   grid-template-rows: repeat(20, 1fr);
+  background: rgb(149, 215, 241);
 }
 
 .box {
@@ -164,4 +215,8 @@ input[type="checkbox"] {
 
 .red {
   background: red;
+}
+
+.sky {
+  background: rgb(149, 215, 241);
 }

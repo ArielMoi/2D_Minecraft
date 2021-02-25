@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/2b3f2b08e3.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/style.css">
     <title>2D Minecraft</title>
 </head>
@@ -555,9 +556,45 @@
 
 
     <div class="entrence-screen">
-        <button>instructions</button>
-        <button>modify world</button>
-        <button>start game</button>
+        <div>
+            <button>instructions</button>
+            <div class="instruction-window">
+                <h1>GAME PLAY</h1>
+                <div>
+                    <div class="tools">
+                        <img src="img/stone_pickaxe.png" alt="picaxe">
+                        <img src="img/stone_shovel.png" alt="shovel">
+                        <img src="img/stone_axe.png" alt="axe">
+                    </div>
+                    <div class='arrows'>
+                        <i class="fas fa-arrow-right"></i>
+                        <i class="fas fa-arrow-right"></i>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="materials">
+                        <div><img src="img/rock.png" alt=""> </div>
+                        <div>
+                            <img src="img/soil.jpg" alt="">
+                            <img src="img/grass.png" alt="">
+                        </div>
+                        <div>
+                            <img src="img/tree-leaves.png" alt="">
+                            <img src="img/wood.png" alt="">
+                        </div>
+                    </div>
+                    <p>Fun game! you have three tools and eace tool can harvest specific tool.
+                        the materials you harvested can be teused from the inventory!
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button>modify world</button>
+            <div class="modify-window"></div>
+        </div>
+        <div>
+            <button>start game</button>
+        </div>
     </div>
 
     <script src="script/script.js"></script>
