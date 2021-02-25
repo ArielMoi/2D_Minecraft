@@ -1,0 +1,83 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* viewed screen */
+
+.container {
+  display: grid;
+  grid-template-columns: 6fr 1fr;
+}
+
+/* left side -- Game */
+
+.game-grid {
+  margin: 0 120px;
+  border: 1px solid black;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: repeat(25, 1fr);
+  grid-template-rows: repeat(20, 1fr);
+}
+
+.box {
+  border: 0.5px solid grey;
+  background: rgb(149, 215, 241);
+}
+
+/* right side - menu */
+
+/* tool box */
+.tool-box--right-side {
+  padding: 30px;
+  background-color: black;
+  /* text-align: center; */
+}
+
+.picaxe,
+.shovel,
+.axe {
+  border: 1px solid white;
+  padding: 5px;
+  width: max-content;
+  color: white;
+  text-align: center;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.picaxe > img,
+.shovel > img,
+.axe > img {
+  width: 3rem;
+}
+
+/* inventory */
+/*  */
+
+/* player materials */
+.cloud {
+  background: url("../img/cloud.png") no-repeat center/cover;
+}
+
+.grass {
+  background: url("../img/grass.png") no-repeat center/cover;
+}
+
+.rock {
+  background: url("../img/rock.png") no-repeat center/cover;
+}
+
+.soil {
+  background: url("../img/soil.jpg") no-repeat center/cover;
+}
+
+.leaves {
+  background: url("../img/tree-leaves.png") no-repeat center/cover;
+}
+
+.wood {
+  background: url("../img/wood.png") no-repeat center/cover;
+}
