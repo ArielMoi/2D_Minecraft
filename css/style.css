@@ -4,6 +4,35 @@
   box-sizing: border-box;
 }
 
+/* Entrence Screen */
+.entrence-screen {
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: url("../img/minecraft-header.jpg");
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100vw;
+  text-align: center;
+}
+
+.entrence-screen button {
+  margin: 16% 10% 0;
+  cursor: pointer;
+  padding: 10px;
+  padding-right: 20px;
+  padding-left: 20px;
+  background: transparent;
+}
+
+.entrence-screen button:hover {
+  border: 1px solid #fff;
+  box-shadow: 0 0 5px black;
+  color: #fff;
+}
+
 /* viewed screen */
 
 .container {

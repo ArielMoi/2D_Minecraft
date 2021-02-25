@@ -132,7 +132,7 @@ for (let row = 1; row <= 20; row++) { //starts counting from one for easier numb
 }
 
 
-// GAME PLAY
+// GAME PLAY -!!-
 
 // making the base world
 basicWorldMaker();
