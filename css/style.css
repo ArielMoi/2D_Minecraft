@@ -14,7 +14,7 @@
 /* left side -- Game */
 
 .game-grid {
-  margin: 0 120px;
+  margin: 0 100px;
   border: 1px solid black;
   height: 100vh;
   display: grid;
@@ -24,18 +24,22 @@
 
 .box {
   background: rgb(149, 215, 241);
+  border: 1px transparent;
+}
+
+.box:hover {
+  border: 1px solid white;
+  cursor: pointer;
 }
 
 /* right side - menu */
 
 /* tool box */
 .tool-box--right-side {
-  /* padding: 30px; */
   background-color: black;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
 }
 
 input[type="checkbox"] {
@@ -47,17 +51,24 @@ input[type="checkbox"] {
 .axe {
   border: 1px solid white;
   padding: 5px;
-  width: max-content;
+  width: 65px;
   color: white;
   text-align: center;
   margin-top: 10%;
   cursor: pointer;
+  opacity: 0.8;
+}
+
+.picaxe:hover,
+.shovel:hover,
+.axe:hover {
+  opacity: 1;
 }
 
 .picaxe > img,
 .shovel > img,
 .axe > img {
-  width: 3rem;
+  width: 3.5rem;
 }
 
 .tool-box--right-side button {
@@ -67,6 +78,12 @@ input[type="checkbox"] {
 }
 
 /* inventory */
+.inventory {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 10px;
+  margin-top: 12%;
+}
 
 .item {
   border: 1px solid white;
@@ -76,6 +93,11 @@ input[type="checkbox"] {
   color: white;
   text-align: center;
   cursor: pointer;
+  opacity: 0.85;
+}
+
+.item:hover {
+  opacity: 1;
 }
 
 .item h4 {
@@ -105,4 +127,12 @@ input[type="checkbox"] {
 
 .wood {
   background: url("../img/wood.png") no-repeat center/cover;
+}
+
+.blue {
+  background: blue;
+}
+
+.red {
+  background: red;
 }
