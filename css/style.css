@@ -23,7 +23,6 @@
 }
 
 .box {
-  /* border: 0.5px solid grey; */
   background: rgb(149, 215, 241);
 }
 
@@ -33,7 +32,10 @@
 .tool-box--right-side {
   padding: 30px;
   background-color: black;
-  /* text-align: center; */
+}
+
+input[type="checkbox"] {
+  visibility: hidden;
 }
 
 .picaxe,
@@ -55,6 +57,13 @@
 }
 
 /* inventory */
+
+.item {
+  border: 1px solid white;
+  width: 40px;
+  height: 40px;
+  margin: 20px auto;
+}
 /*  */
 
 /* player materials */

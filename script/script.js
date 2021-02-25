@@ -1,12 +1,11 @@
-
 const boxDivs = document.querySelectorAll('.box');
 
-function landScapeMaker(material ,rowStart = 1, rowEnd = 20, columnStart = 1, columnEnd = 25){
-    for (let row = rowStart; row <= rowEnd; row++){
-        for (let column = columnStart; column <= columnEnd; column++){
+function landScapeMaker(material, rowStart = 1, rowEnd = 20, columnStart = 1, columnEnd = 25) {
+    for (let row = rowStart; row <= rowEnd; row++) {
+        for (let column = columnStart; column <= columnEnd; column++) {
             objOfBoxes[`${row}.${column}`].classList.add(material);
         }
-    } 
+    }
 }
 
 // giving each div a specific location, and creating obj of boxes.
@@ -42,7 +41,7 @@ landScapeMaker('cloud', 5, 5, 9, 13);
 landScapeMaker('cloud', 4, 4, 10, 13);
 landScapeMaker('cloud', 3, 3, 10, 11);
 
-
+// to limit tool use to his value
 const materialObj = {
     'axe': ['leaves', 'wood'],
     'picaxe': ['rock'],
@@ -54,34 +53,61 @@ const picaxe = document.querySelector('.picaxe');
 const shovel = document.querySelector('.shovel');
 const game = document.querySelector('.game-grid');
 
+const axeChecker = document.querySelector('.axe input');
+const picaxeChecker = document.querySelector('.picaxe input');
+const shovelChecker = document.querySelector('.shovel input');
+
+const grassInventory = document.querySelector('.item grass');
+const rockInventory = document.querySelector('.item rock');
+const soilInventory = document.querySelector('.item soil');
+const leavesInventory = document.querySelector('.item leaves');
+const woodInventory = document.querySelector('.item wood');
+
 const inventory = {};
 
-
-
-function collectMaterial(tool, material, event){
-    if (materialObj[tool].includes(material)){
-        console.log(materialObj[tool])
+function collectMaterial(tool, material, event) {
+    if (materialObj[tool].includes(material)) {
         inventory[material] ? inventory[material] += 1 : inventory[material] = 1;
         event.target.classList.remove(material);
+        updateInventory()
     }
 }
 
-axe.addEventListener('click', () => {
-    game.addEventListener('click', (event) => {
-        collectMaterial('axe', event.target.classList[1], event);
-    })
+function fromEventCollectMaterialAxe(event) {
+    collectMaterial('axe', event.target.classList[1], event);
+}
+
+function fromEventCollectMaterialShovel(event) {
+    console.log(event.target)
+    collectMaterial('shovel', event.target.classList[1], event);
+}
+
+function fromEventCollectMaterialPicaxe(event) {
+    collectMaterial('picaxe', event.target.classList[1], event);
+}
+
+
+axe.addEventListener('click', (e) => {
+    game.removeEventListener('click', fromEventCollectMaterialShovel)
+    game.removeEventListener('click', fromEventCollectMaterialPicaxe)
+    game.addEventListener('click', fromEventCollectMaterialAxe);
 })
 
 picaxe.addEventListener('click', () => {
-    game.addEventListener('click', (event) => {
-        collectMaterial('picaxe', event.target.classList[1], event);
-    })
+    game.removeEventListener('click', fromEventCollectMaterialShovel)
+    game.removeEventListener('click', fromEventCollectMaterialAxe)
+    game.addEventListener('click', fromEventCollectMaterialPicaxe)
 })
 
 shovel.addEventListener('click', () => {
-    game.addEventListener('click', (event) => {
-        collectMaterial('shovel', event.target.classList[1], event);
-    })
+    game.removeEventListener('click', fromEventCollectMaterialPicaxe)
+    game.removeEventListener('click', fromEventCollectMaterialAxe)
+    game.addEventListener('click', fromEventCollectMaterialShovel)
 })
 
 // inventory
+function updateInventory() {
+    for (let material of Object.entries(inventory)) {
+        console.log(material);
+    }
+}
