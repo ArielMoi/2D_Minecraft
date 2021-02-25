@@ -91,22 +91,16 @@ function fromEventCollectMaterialPicaxe(event) {
 
 // event listners for tool choise -> collects only the matching material
 axe.addEventListener('click', (e) => {
-    // game.removeEventListener('click', fromEventCollectMaterialShovel)
-    // game.removeEventListener('click', fromEventCollectMaterialPicaxe)
     removeOtherEventListeners()
     game.addEventListener('click', fromEventCollectMaterialAxe);
 })
 
 picaxe.addEventListener('click', () => {
-    // game.removeEventListener('click', fromEventCollectMaterialShovel)
-    // game.removeEventListener('click', fromEventCollectMaterialAxe)
     removeOtherEventListeners()
     game.addEventListener('click', fromEventCollectMaterialPicaxe)
 })
 
 shovel.addEventListener('click', () => {
-    // game.removeEventListener('click', fromEventCollectMaterialPicaxe)
-    // game.removeEventListener('click', fromEventCollectMaterialAxe)
     removeOtherEventListeners()
     game.addEventListener('click', fromEventCollectMaterialShovel)
 })
@@ -136,7 +130,7 @@ function updateInventory() {
 }
 
 // functions to put material
-function putMaterial(event, material) {
+function putMaterial(event) {
     if (inventory[material]) {
         if (event.target.classList.length == 1) {
             event.target.classList.add(material)
@@ -166,7 +160,6 @@ function forEventPutMaterialLeaves(event){
     putMaterial(event, 'leaves');
 }
 
-
 function removeOtherEventListeners() {
     game.removeEventListener('click', fromEventCollectMaterialPicaxe)
     game.removeEventListener('click', fromEventCollectMaterialAxe)
@@ -181,26 +174,44 @@ function removeOtherEventListeners() {
 
 grassInventory.addEventListener('click', (event) => {
     removeOtherEventListeners()
-    game.addEventListener('click', forEventPutMaterialGrass);
+    material = 'grass';
+    game.addEventListener('click', putMaterial());
 })
+
 
 woodInventory.addEventListener('click', (event) => {
     removeOtherEventListeners()
-    game.addEventListener('click', forEventPutMaterialWood);
+    material = 'wood';
+    game.addEventListener('click', putMaterial);
 })
+
+
 
 rockInventory.addEventListener('click', (event) => {
     removeOtherEventListeners()
-    game.addEventListener('click', forEventPutMaterialRock);
+    material = 'rock';
+    game.addEventListener('click', putMaterial);
 })
+
 
 soilInventory.addEventListener('click', (event) => {
     removeOtherEventListeners()
-    game.addEventListener('click', forEventPutMaterialSoil);
+    material = 'soil';
+    game.addEventListener('click', putMaterial);
 })
+
 
 leavesInventory.addEventListener('click', (event) => {
     removeOtherEventListeners()
-    game.addEventListener('click', forEventPutMaterialLeaves);
+    material = 'leaves';
+    game.addEventListener('click', putMaterial);
 })
 
+// reset button
+const resetButton = document.querySelector('.tool-box--right-side button');
+
+resetButton.addEventListener('click', () => {
+    location.reload();
+})
+
+// console.log(resetButton)

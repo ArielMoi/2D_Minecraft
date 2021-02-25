@@ -30,12 +30,12 @@
 
 /* tool box */
 .tool-box--right-side {
-  padding: 30px;
+  /* padding: 30px; */
   background-color: black;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
+  height: 100vh;
 }
 
 input[type="checkbox"] {
@@ -50,7 +50,7 @@ input[type="checkbox"] {
   width: max-content;
   color: white;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 10%;
   cursor: pointer;
 }
 
@@ -60,13 +60,19 @@ input[type="checkbox"] {
   width: 3rem;
 }
 
+.tool-box--right-side button {
+  width: 150px;
+  padding: 5px;
+  margin-top: 20%;
+}
+
 /* inventory */
 
 .item {
   border: 1px solid white;
   width: 40px;
   height: 40px;
-  margin: 20px auto;
+  margin: 10px auto;
   color: white;
   text-align: center;
   cursor: pointer;
