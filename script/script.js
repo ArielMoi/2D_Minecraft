@@ -245,9 +245,10 @@ leavesInventory.addEventListener('click', (event) => {
 
 
 // reset button event listener
-resetButton.addEventListener('click', () => { /// !!!!! doesnt let collect materilal !! -- BUG!
+resetButton.addEventListener('click', () => {
     worldCleaner();
-    basicWorldMaker();
+    basicWorldMaker(); 
+    // randomWorldMaker(2, 3)  --------- ///////////// ---------
 })
 
 
@@ -271,7 +272,7 @@ instructionsButton.addEventListener('mouseout',() => {
 
 
 function randomLocation(arr){
-    ///// generate location (3 nums of array) and taking them out of array
+    ///// generate location (3 nums of array) and taking them out of array [x grid]
     Math.floor(Math.random() * arr.length)
     let location = Math.floor(Math.random() * arr.length);
     arr.splice(location-2, 4);
@@ -281,27 +282,29 @@ function randomLocation(arr){
 
 
 function randomWorldMaker(trees = 1, rocks = 1, bushes = 1){
+    // debugger;
     let notExistedLocaions;
     trees == 1 || rocks == 1 || bushes == 1
     ? notExistedLocaions = [...Array(26).keys()]
     : notExistedLocaions = [...Array((trees + rocks + bushes) * 8).keys()]// nake x grid as long as the amount of elements
     notExistedLocaions.shift();// deletes 0
-    console.log(notExistedLocaions)
 
-    randomLocation(notExistedLocaions)
-    // for 
-    console.log(notExistedLocaions)
+        for(let i = 1; i <= trees; i++){
+            treeMaker(randomLocation(notExistedLocaions));
+        }
+        for(let i = 1; i <= rocks; i++){
+            rockMaker(randomLocation(notExistedLocaions));
+        }
+        for(let i = 1; i <= bushes; i++){
+            bushMaker(randomLocation(notExistedLocaions));
+        }       
 
-
-
-
-    console.log(Math.floor(Math.random() * 20))
-    landMaker();
-    treeMaker();
-    rockMaker(13, true);
-    rockMaker();
-    bushMaker();
+    // landMaker();
+    // treeMaker();
+    // rockMaker(13, true);
+    // rockMaker();
+    // bushMaker();
 }
 
 // console.log([...Array(20).keys()])
-randomWorldMaker()
+// randomWorldMaker()
