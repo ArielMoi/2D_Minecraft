@@ -85,18 +85,6 @@ function worldCleaner(){
     landMaker();
 }
 
-function randomWorldMaker(){
-    let notExistedLocaions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-    console.log(notExistedLocaions) /// למשוך כל הזמן מהרשימה - מספרים שאני משתמשת יוצאת מהרשימה וממשיכה לעשות רנדום לאינדקס של המספר ולא לספקה מ1 עד עשרים
-    console.log(Math.floor(Math.random() * 20))
-    landMaker();
-    treeMaker();
-    rockMaker(13, true);
-    rockMaker();
-    bushMaker();
-}
-
-
 //collect material functions
 function collectMaterial(event) {
     material = event.target.classList[1];
@@ -282,4 +270,38 @@ instructionsButton.addEventListener('mouseout',() => {
 
 
 
+function randomLocation(arr){
+    ///// generate location (3 nums of array) and taking them out of array
+    Math.floor(Math.random() * arr.length)
+    let location = Math.floor(Math.random() * arr.length);
+    arr.splice(location-2, 4);
+    return location;
+}
+
+
+
+function randomWorldMaker(trees = 1, rocks = 1, bushes = 1){
+    let notExistedLocaions;
+    trees == 1 || rocks == 1 || bushes == 1
+    ? notExistedLocaions = [...Array(26).keys()]
+    : notExistedLocaions = [...Array((trees + rocks + bushes) * 8).keys()]// nake x grid as long as the amount of elements
+    notExistedLocaions.shift();// deletes 0
+    console.log(notExistedLocaions)
+
+    randomLocation(notExistedLocaions)
+    // for 
+    console.log(notExistedLocaions)
+
+
+
+
+    console.log(Math.floor(Math.random() * 20))
+    landMaker();
+    treeMaker();
+    rockMaker(13, true);
+    rockMaker();
+    bushMaker();
+}
+
+// console.log([...Array(20).keys()])
 randomWorldMaker()

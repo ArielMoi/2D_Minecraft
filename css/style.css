@@ -122,10 +122,6 @@
   align-items: center;
 }
 
-input[type="checkbox"] {
-  visibility: hidden;
-}
-
 .picaxe,
 .shovel,
 .axe {

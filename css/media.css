@@ -1,0 +1,69 @@
+/* .instruction-window {
+  visibility: visible;
+} */
+
+/* body {
+  width: 98vw;
+} */
+body {
+  overflow: hidden;
+}
+
+.container {
+  grid-template-columns: 4fr 1fr;
+  width: 100%;
+}
+
+.game-grid {
+  margin: 0 10px;
+}
+
+.tool-box--right-side {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.picaxe,
+.shovel,
+.axe {
+  padding: 2px;
+  width: 35px;
+  margin: 5px;
+  margin-left: 0;
+  font-size: 10px;
+}
+
+.picaxe > img,
+.shovel > img,
+.axe > img {
+  width: 1.5rem;
+}
+
+.tool-box--right-side button {
+  width: 70px;
+  padding: 5px;
+}
+
+.entrence-screen {
+  margin-top: 0;
+}
+
+.instruction-window {
+  width: 295%;
+  bottom: 50px;
+}
+
+.instruction-window h1 {
+  display: none;
+}
+
+.instruction-window p {
+  padding: 6px;
+}
+
+.instruction-window div > img {
+  width: 30px;
+}
