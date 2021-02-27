@@ -50,6 +50,9 @@
                 <div class="item wood">
                     <h4>0</h4>
                 </div>
+                <div class="item timer">
+                    <h4>0</h4>
+                </div>
             </div>
             <button class='btn'>Reset</button>
             <button class='btn'>Open Main Screen</button>
@@ -87,6 +90,7 @@
                     <p>You have three tools. Each tool is suitable to harvest specific items.
                         After harvesting, the materials are in your inventory and you are to use them
                         and build the world anew.
+                        each minute (60s) the player gets one added material of each type.
                     </p>
                 </div>
             </div>
@@ -96,11 +100,11 @@
             <div class="modify-window">
                 <p>Start a game with more trees, rocks and bushes and more fun!</p>
                 <label for="trees">Amount of trees(max:6)</label><br>
-                <input type="number" name='trees' max=6 min=0><br>
+                <input type="number" name='trees' max=6 min=0 value=3><br>
                 <label for="rocks">Amount of rocks(max:6)</label><br>
-                <input type="number" name='rocks' max=6 min=0><br>
-                <label for="bushes">Amount of bushes</label><br>
-                <input type="number" name='bushes' max=6 min=0><br>
+                <input type="number" name='rocks' max=6 min=0 value=3><br>
+                <label for="bushes">Amount of bushes(max:6)</label><br>
+                <input type="number" name='bushes' max=6 min=0 value=3><br>
                 <button class='btn' type="submit">Start Modified Game</button>
             </div>
         </div>

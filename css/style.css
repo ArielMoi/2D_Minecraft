@@ -219,7 +219,7 @@ body {
   color: white;
   text-align: center;
   cursor: pointer;
-  opacity: 0.85;
+  opacity: 0.7;
 }
 
 .item:hover {
@@ -228,6 +228,10 @@ body {
 
 .item h4 {
   margin-top: 10px;
+}
+
+.timer {
+  border-radius: 40%;
 }
 
 /* player materials */
@@ -265,5 +269,6 @@ body {
 }
 
 .red {
-  border: 1px solid red;
+  /* border: 1px solid red; */
+  background: red;
 }
