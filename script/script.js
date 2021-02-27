@@ -102,6 +102,7 @@ function collectMaterial(event) {
                 event.target.classList.remove(material);
                 updateInventory() // updated the written amount
             }
+            console.log(event.target.classList)
         }
     } else {
         if (materialObj[tool].includes(material)) {
@@ -196,24 +197,36 @@ function randomWorldMaker(trees = 1, rocks = 1, bushes = 1) {
     landScapeMaker('soil', 15, 20, 1, 50);
 
     for (let i = 1; i <= trees; i++) { // creating elements for the world (for amount of user choice)
-        let location = Math.floor(Math.random() * notExistedLocaions.length); // pull random index for existed locations
-        treeMaker(notExistedLocaions[location]); // creates element
-        delete notExistedLocaions[location]; // delete element location from locations list
-        notExistedLocaions = notExistedLocaions.filter((el) => el != 'undefined'); // filter the deleted items.
+        let location = Math.floor(Math.random() * notExistedLocaions.length); // generate random index of not existed locations
+        // console.log(notExistedLocaions[location])
+        if (notExistedLocaions[location]) {
+            treeMaker(notExistedLocaions[location]); // creates element
+            notExistedLocaions[location] = false; // makes element false (not habitable)
+        } else {
+            i--; // make loop iterate again
+        }
     }
     for (let i = 1; i <= rocks; i++) {
         let location = Math.floor(Math.random() * notExistedLocaions.length);
-        rockMaker(notExistedLocaions[location]);
-        delete notExistedLocaions[location];
-        notExistedLocaions = notExistedLocaions.filter((el) => el != 'undefined');
+        // console.log(notExistedLocaions[location])
+        if (notExistedLocaions[location]) {
+            rockMaker(notExistedLocaions[location]);
+            notExistedLocaions[location] = false;
+        } else {
+            i--;
+        }
     }
     for (let i = 1; i <= bushes; i++) {
         let location = Math.floor(Math.random() * notExistedLocaions.length);
-        bushMaker(notExistedLocaions[location]);
-        delete notExistedLocaions[location + 2];
-        delete notExistedLocaions[location + 1];
-        delete notExistedLocaions[location];
-        notExistedLocaions = notExistedLocaions.filter((el) => el != 'undefined');
+        // console.log(notExistedLocaions[location])
+        if (notExistedLocaions[location] && notExistedLocaions[location + 1] && notExistedLocaions[location + 2] ) {
+            bushMaker(notExistedLocaions[location]);
+            notExistedLocaions[location + 2] = false;
+            notExistedLocaions[location + 1] = false;
+            notExistedLocaions[location] = false;
+        } else {
+            i--;
+        }
     }
 }
 
@@ -334,8 +347,17 @@ modifyWorldButton.addEventListener('click', () => {
     toggleElementsHidder(modifyScreen, false);
 })
 
-document.querySelector('.entrence-screen').addEventListener('mouseout', () => {
+//leaves window open until mouse out
+modifyScreen.addEventListener('mouseover', () => {
+    toggleElementsHidder(modifyScreen, false);
+})
+instructionScreen.addEventListener('mouseover', () => {
+    toggleElementsHidder(instructionScreen, false);
+})
+modifyScreen.addEventListener('mouseout', () => {
     toggleElementsHidder(modifyScreen);
+})
+instructionScreen.addEventListener('mouseout', () => {
     toggleElementsHidder(instructionScreen);
 })
 

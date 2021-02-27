@@ -15,14 +15,17 @@ body {
   padding-right: 20px;
   padding-left: 20px;
   background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  margin-top: 2px;
 }
 
 .btn:hover {
-  border: 1px solid #fff;
-  box-shadow: 0 0 5px black;
-  color: #fff;
+  border: 1px solid orangered;
+  box-shadow: 1px 5px 5px orangered;
   border-radius: 10px;
-  transition: border-radius 0.5s ease;
+  color: orangered;
+  transition: border-radius 1s ease;
 }
 
 /* Entrence Screen */
@@ -42,7 +45,7 @@ body {
 }
 
 .entrence-screen > div {
-  margin-top: 40%;
+  margin-top: 20vh;
 }
 
 /* instructions */
