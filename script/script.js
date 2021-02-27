@@ -1,10 +1,10 @@
-const boxDivs = document.querySelectorAll('.box');
-
 // creating variables for continue use
+
 const axe = document.querySelector('.axe');
 const picaxe = document.querySelector('.picaxe');
 const shovel = document.querySelector('.shovel');
-const game = document.querySelector('.game-grid');
+
+const game = document.querySelector('.game-grid--right-side');
 
 const grassInventory = document.querySelector('.inventory .grass');
 const rockInventory = document.querySelector('.inventory .rock');
@@ -40,30 +40,31 @@ function landScapeMaker(material, rowStart = 1, rowEnd = 20, columnStart = 1, co
     }
 }
 
-function landMaker(){
-    landScapeMaker('grass', 14, 14, 1, 25);
+function landMaker() {
+    landScapeMaker('grass', 14, 14, 1, 25)
     landScapeMaker('soil', 15, 20, 1, 25);
     landScapeMaker('cloud', 5, 5, 9, 13);
     landScapeMaker('cloud', 4, 4, 10, 13);
     landScapeMaker('cloud', 3, 3, 10, 11);
 }
 
-function treeMaker(x = 20){
+function treeMaker(x = 20) {
     landScapeMaker('wood', 10, 13, x, x);
-    landScapeMaker('leaves', 7, 9, x-1, x+1);
+    landScapeMaker('leaves', 7, 9, x - 1, x + 1);
 }
 
-function rockMaker(x=2, double = false){
+function rockMaker(x = 2, double = false) {
     double
-    ? landScapeMaker('rock', 12, 13, x, x)
-    : landScapeMaker('rock', 13, 13, x, x);   
+        ?
+        landScapeMaker('rock', 12, 13, x, x) :
+        landScapeMaker('rock', 13, 13, x, x);
 }
 
 
 
-function bushMaker(x = 5){
-    landScapeMaker('leaves', 13, 13, x, x+2);
-    landScapeMaker('leaves', 12, 12, x+1, x+1);
+function bushMaker(x = 5) {
+    landScapeMaker('leaves', 13, 13, x, x + 2);
+    landScapeMaker('leaves', 12, 12, x + 1, x + 1);
 }
 
 
@@ -75,11 +76,11 @@ function basicWorldMaker() {
     bushMaker();
 }
 
-function worldCleaner(){
+function worldCleaner() {
     for (let row = 1; row <= 13; row++) {
         for (let column = 1; column <= 25; column++) {
-            objOfBoxes[`${row}.${column}`].classList[1] 
-            && objOfBoxes[`${row}.${column}`].classList.remove(`${objOfBoxes[`${row}.${column}`].classList[1]}`);
+            objOfBoxes[`${row}.${column}`].classList[1] &&
+                objOfBoxes[`${row}.${column}`].classList.remove(`${objOfBoxes[`${row}.${column}`].classList[1]}`);
         }
     }
     landMaker();
@@ -88,7 +89,6 @@ function worldCleaner(){
 //collect material functions
 function collectMaterial(event) {
     material = event.target.classList[1];
-    // let material = event.target.classList[1];
     if (materialObj[tool].includes(material)) {
         inventory[material] ? inventory[material] += 1 : inventory[material] = 1;
         event.target.classList.remove(material);
@@ -152,20 +152,23 @@ function backgroundReset() {
 }
 
 // change visibility
-function toggleElementsHidder(el, hide = true){
-    hide 
-    ? el.style.visibility = 'hidden'
-    : el.style.visibility = 'visible'
+function toggleElementsHidder(el, hide = true) {
+    hide
+        ?
+        el.style.visibility = 'hidden' :
+        el.style.visibility = 'visible'
 }
-
 
 // giving each div a specific location(row and column), and creating obj of boxes.
 let indexOfBox = 0;
 for (let row = 1; row <= 20; row++) { //starts counting from one for easier number reading (20 and 25 instead of 19 24)
     for (let column = 1; column <= 25; column++) {
-        boxDivs[indexOfBox].style.row = row;
-        boxDivs[indexOfBox].style.column = column;
-        objOfBoxes[`${row}.${column}`] = boxDivs[indexOfBox];
+        let box = document.createElement('div');
+        box.classList.add('box');
+        game.appendChild(box);
+        box.style.gridRow = row;
+        box.style.gridColumn = column;
+        objOfBoxes[`${row}.${column}`] = box;
         indexOfBox++;
     }
 }
@@ -189,7 +192,7 @@ picaxe.addEventListener('click', (e) => {
     tool = 'picaxe'
     removeOtherEventListeners()
     backgroundReset();
-    e.currentTarget.classList.add('blue') ;
+    e.currentTarget.classList.add('blue');
     game.addEventListener('click', collectMaterial);
 })
 
@@ -247,8 +250,8 @@ leavesInventory.addEventListener('click', (event) => {
 // reset button event listener
 resetButton.addEventListener('click', () => {
     worldCleaner();
-    basicWorldMaker(); 
-    // randomWorldMaker(2, 3)  --------- ///////////// ---------
+    // basicWorldMaker();
+    randomWorldMaker(2, 2, 2) //--------- ///////////// ---------
 })
 
 
@@ -257,47 +260,65 @@ startGameButton.addEventListener('click', () => {
     toggleElementsHidder(entrenceScreen)
 })
 
-instructionsButton.addEventListener('mouseover',() => {
+instructionsButton.addEventListener('mouseover', () => {
     toggleElementsHidder(document.querySelector('.instruction-window'), false);
 })
 
-instructionsButton.addEventListener('click',() => {
+instructionsButton.addEventListener('click', () => {
     toggleElementsHidder(document.querySelector('.instruction-window'), false);
 })
 
-instructionsButton.addEventListener('mouseout',() => {
+instructionsButton.addEventListener('mouseout', () => {
     toggleElementsHidder(document.querySelector('.instruction-window'));
 })
 
 
 
-function randomLocation(arr){
+function randomLocation(arr) {
     ///// generate location (3 nums of array) and taking them out of array [x grid]
-    Math.floor(Math.random() * arr.length)
     let location = Math.floor(Math.random() * arr.length);
-    arr.splice(location-2, 4);
+    arr.splice(location - 2, 4);
     return location;
 }
 
 
 
-function randomWorldMaker(trees = 1, rocks = 1, bushes = 1){
-    // debugger;
+function randomWorldMaker(trees = 1, rocks = 1, bushes = 1) {
     let notExistedLocaions;
-    trees == 1 || rocks == 1 || bushes == 1
-    ? notExistedLocaions = [...Array(26).keys()]
-    : notExistedLocaions = [...Array((trees + rocks + bushes) * 8).keys()]// nake x grid as long as the amount of elements
-    notExistedLocaions.shift();// deletes 0
+    trees == 1 || rocks == 1 || bushes == 1 ?
+        notExistedLocaions = [...Array(26).keys()] :
+        notExistedLocaions = [...Array((trees + rocks + bushes) * 8).keys()] // make x grid as long as the amount of elements
+    notExistedLocaions.shift(); // deletes 0
 
-        for(let i = 1; i <= trees; i++){
-            treeMaker(randomLocation(notExistedLocaions));
+    // game.setAttribute('width', '2000px')
+    // game.style.overFlow = 'scroll';
+    console.log(game)
+    game.style.gridTemplateColumns = 'repeat(50, 1fr)'
+    game.style.width = '2000px';
+
+    for (let row = 1; row <= 20; row++) { //starts counting from one for easier number reading (20 and 25 instead of 19 24)
+        for (let column = 25; column <= 50; column++) {
+            let box = document.createElement('div');
+            box.classList.add('box');
+            game.appendChild(box);
+            box.style.gridRow = row;
+            box.style.gridColumn = column;
+            objOfBoxes[`${row}.${column}`] = box;
+            indexOfBox++;
         }
-        for(let i = 1; i <= rocks; i++){
-            rockMaker(randomLocation(notExistedLocaions));
-        }
-        for(let i = 1; i <= bushes; i++){
-            bushMaker(randomLocation(notExistedLocaions));
-        }       
+    }
+    // console.log(objOfBoxes);
+
+    landMaker();
+    for (let i = 1; i <= trees; i++) { /// use repeat
+        treeMaker(randomLocation(notExistedLocaions));
+    }
+    for (let i = 1; i <= rocks; i++) {
+        rockMaker(randomLocation(notExistedLocaions));
+    }
+    for (let i = 1; i <= bushes; i++) {
+        bushMaker(randomLocation(notExistedLocaions));
+    }
 
     // landMaker();
     // treeMaker();
