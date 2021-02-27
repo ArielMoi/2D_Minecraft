@@ -96,10 +96,24 @@ function worldCleaner() {
 //collect material functions (gamr function of harvesting with a tool)
 function collectMaterial(event) {
     material = event.target.classList[1];
-    if (materialObj[tool].includes(material)) {
+    if (tool = 'shovel') { // limit shovel to collect only the higher layer of soil (first layer)
+        let [row, column] = [event.target.style.gridRow.slice(0, -6) - 1, parseInt(event.target.style.gridColumn.slice(0, -7))]; // location of one box above
+        if (objOfBoxes[`${row}.${column}`].classList.length == 1) { // check if there is material in the one box above // prevent coolecting soil from under ground
+            if (materialObj[tool].includes(material)) {
+                inventory[material] ? inventory[material] += 1 : inventory[material] = 1;
+                event.target.classList.remove(material);
+                updateInventory() // updated the written amount
+            }
+        }
+    } else if (materialObj[tool].includes(material)) {
         inventory[material] ? inventory[material] += 1 : inventory[material] = 1;
         event.target.classList.remove(material);
         updateInventory()
+    } else {
+        console.log('----')
+        event.target.classList.add('red');
+        setTimeout(event.target.classList.remove('red'), 1000)
+        // event.target.classList.remove(material);
     }
 }
 
@@ -188,14 +202,14 @@ function randomWorldMaker(trees = 1, rocks = 1, bushes = 1) {
     notExistedLocaions.shift(); // deletes 1 // to prevent element sitting to close to the starts
 
     //adjust grid to containe bigger worls
-    game.style.gridTemplateColumns = 'repeat(50, 1fr)' 
+    game.style.gridTemplateColumns = 'repeat(50, 1fr)'
     game.style.width = '2000px';
-    game.style.margin = 0; 
+    game.style.margin = 0;
 
-    boxGameCreator(1,20,25,50)//creating more boxes and putting them on the grid.
-
+    boxGameCreator(1, 20, 25, 50) //creating more boxes and putting them on the grid.
     landScapeMaker('grass', 14, 14, 1, 50) // creating land for the world
     landScapeMaker('soil', 15, 20, 1, 50);
+
     for (let i = 1; i <= trees; i++) { // creating elements for the world (for amount of user choice)
         let location = randomLocation(notExistedLocaions);
         treeMaker(notExistedLocaions[location]);
@@ -212,8 +226,9 @@ function randomWorldMaker(trees = 1, rocks = 1, bushes = 1) {
 
 // creating divs. giving them a specific location(row and column), and creating obj of boxes. for future play and positions options.
 let indexOfBox = 0;
-function boxGameCreator(rowStart = 1, rowEnd = 20, columnStart = 1, columnEnd = 25) {//starts counting from one for easier number reading (20 and 25 instead of 19 24)
-    for (let row = rowStart; row <= rowEnd; row++) { 
+
+function boxGameCreator(rowStart = 1, rowEnd = 20, columnStart = 1, columnEnd = 25) { //starts counting from one for easier number reading (20 and 25 instead of 19 24)
+    for (let row = rowStart; row <= rowEnd; row++) {
         for (let column = columnStart; column <= columnEnd; column++) {
             let box = document.createElement('div');
             box.classList.add('box');
@@ -314,19 +329,19 @@ startGameButton.addEventListener('click', () => {
 })
 
 
-let instructionsToggler = 0;// to toggle open and close instructions window
+let instructionsToggler = 0; // to toggle open and close instructions window
 instructionsButton.addEventListener('click', () => {
-    instructionsToggler % 2 == 0
-    ? toggleElementsHidder(instructionScreen, false)
-    : toggleElementsHidder(instructionScreen);
-    instructionsToggler++; 
+    instructionsToggler % 2 == 0 ?
+        toggleElementsHidder(instructionScreen, false) :
+        toggleElementsHidder(instructionScreen);
+    instructionsToggler++;
 })
 
 let modifyToggler = 0; // to toggle open and close modify window
 modifyWorldButton.addEventListener('click', () => {
-    modifyToggler % 2 == 0
-    ? toggleElementsHidder(modifyScreen, false) 
-    :toggleElementsHidder(modifyScreen);
+    modifyToggler % 2 == 0 ?
+        toggleElementsHidder(modifyScreen, false) :
+        toggleElementsHidder(modifyScreen);
     modifyToggler++;
 })
 

@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+body {
+  overflow: hidden;
+}
+
 /* utillities */
 .btn {
   cursor: pointer;
@@ -116,10 +120,6 @@
 }
 
 /* viewed screen */
-body {
-  overflow: hidden;
-}
-
 .container {
   display: grid;
   grid-template-columns: 6fr 1fr;
