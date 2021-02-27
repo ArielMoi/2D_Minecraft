@@ -83,7 +83,8 @@ function basicWorldMaker() {
 }
 
 //cleaner for reset option
-function worldCleaner() {
+let modify;
+function worldCleaner(modify = false) {
     for (let row = 1; row <= 13; row++) {
         for (let column = 1; column <= 25; column++) {
             objOfBoxes[`${row}.${column}`].classList[1] &&
@@ -96,24 +97,21 @@ function worldCleaner() {
 //collect material functions (gamr function of harvesting with a tool)
 function collectMaterial(event) {
     material = event.target.classList[1];
-    if (tool = 'shovel') { // limit shovel to collect only the higher layer of soil (first layer)
-        let [row, column] = [event.target.style.gridRow.slice(0, -6) - 1, parseInt(event.target.style.gridColumn.slice(0, -7))]; // location of one box above
-        if (objOfBoxes[`${row}.${column}`].classList.length == 1) { // check if there is material in the one box above // prevent coolecting soil from under ground
-            if (materialObj[tool].includes(material)) {
-                inventory[material] ? inventory[material] += 1 : inventory[material] = 1;
-                event.target.classList.remove(material);
-                updateInventory() // updated the written amount
-            }
-        }
-    } else if (materialObj[tool].includes(material)) {
+    // if (tool = 'shovel') { // limit shovel to collect only the higher layer of soil (first layer)
+    //     let [row, column] = [event.target.style.gridRow.slice(0, -6) - 1, parseInt(event.target.style.gridColumn.slice(0, -7))]; // location of one box above
+    //     if (objOfBoxes[`${row}.${column}`].classList.length == 1) { // check if there is material in the one box above // prevent coolecting soil from under ground
+    //         if (materialObj[tool].includes(material)) {
+    //             inventory[material] ? inventory[material] += 1 : inventory[material] = 1;
+    //             event.target.classList.remove(material);
+    //             updateInventory() // updated the written amount
+    //         }
+    //     }
+    // } if (tool == 'axe' || tool == 'picaxe'){
+    //     console.log('---')
+    if(materialObj[tool].includes(material)) {
         inventory[material] ? inventory[material] += 1 : inventory[material] = 1;
         event.target.classList.remove(material);
         updateInventory()
-    } else {
-        console.log('----')
-        event.target.classList.add('red');
-        setTimeout(event.target.classList.remove('red'), 1000)
-        // event.target.classList.remove(material);
     }
 }
 
@@ -184,7 +182,6 @@ function toggleElementsHidder(el, hide = true) {
 function randomLocation(arr, bush = false) {
     ///// generate location to be use as index. to pull from array remaining locations and use the to randomize world
     let location = Math.floor(Math.random() * arr.length);
-    console.log(location + ' location from func')
     bush
         ?
         arr.splice(location - 2, 4) :
@@ -195,17 +192,18 @@ function randomLocation(arr, bush = false) {
 // randomize world maker. works with the modify option of the game and pull from input the amount of elements.
 function randomWorldMaker(trees = 1, rocks = 1, bushes = 1) {
     let notExistedLocaions;
-    trees == 1 || rocks == 1 || bushes == 1 ?
+    trees <= 1 || rocks <= 1 || bushes <= 1 ?
         notExistedLocaions = [...Array(24).keys()] :
         notExistedLocaions = [...Array(49).keys()]; // creating list of location on x grid (columns) 
     notExistedLocaions.shift(); // deletes 0
     notExistedLocaions.shift(); // deletes 1 // to prevent element sitting to close to the starts
-
+    
     //adjust grid to containe bigger worls
     game.style.gridTemplateColumns = 'repeat(50, 1fr)'
     game.style.width = '2000px';
     game.style.margin = 0;
 
+    worldCleaner(true);
     boxGameCreator(1, 20, 25, 50) //creating more boxes and putting them on the grid.
     landScapeMaker('grass', 14, 14, 1, 50) // creating land for the world
     landScapeMaker('soil', 15, 20, 1, 50);
@@ -318,7 +316,9 @@ leavesInventory.addEventListener('click', (event) => {
 // reset button event listener
 resetButton.addEventListener('click', () => {
     worldCleaner();
-    basicWorldMaker();
+    modify == false && basicWorldMaker();
+    modify && randomWorldMaker(modifyWorldInputs[0].value, modifyWorldInputs[1].value, modifyWorldInputs[2].value);
+    
 })
 
 // entrence screen

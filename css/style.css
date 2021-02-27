@@ -232,23 +232,28 @@ body {
 }
 
 .grass {
+  transition: background 0.5s linear;
   background: url("../img/grass.png") no-repeat center/cover;
 }
 
 .rock {
+  transition: background 0.5s ease;
   background: url("../img/rock.png") no-repeat center/cover;
 }
 
 .soil {
   background: url("../img/soil.jpg") no-repeat center/cover;
+  transition: background 0.5s ease;
 }
 
 .leaves {
   background: url("../img/tree-leaves.png") no-repeat center/cover;
+  transition: background 0.5s ease;
 }
 
 .wood {
   background: url("../img/wood.png") no-repeat center/cover;
+  transition: background 1s ease;
 }
 
 .blue {
