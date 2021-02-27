@@ -86,14 +86,14 @@ function basicWorldMaker() {
 function worldCleaner(columnEnd = 25) {
     for (let row = 1; row <= 13; row++) {
         for (let column = 1; column <= columnEnd; column++) {
-            objOfBoxes[`${row}.${column}`].classList[1] && // confirming there is class to clean
+            objOfBoxes[`${row}.${column}`].classList[1] && // confirming there is a class to clean ([0] is .box)
                 objOfBoxes[`${row}.${column}`].classList.remove(`${objOfBoxes[`${row}.${column}`].classList[1]}`);
         }
     }
     landMaker();
 }
 
-function markAsWorng(event){ // marks box as wrong with red border for 50ms
+function markAsWorng(event) { // marks box as wrong with red border for 50ms
     event.target.style.border = '1px solid red';
     setTimeout(() => {
         event.target.style.border = 'none';
@@ -147,7 +147,7 @@ function updateInventory() {
 // functions to put material on game grid (the player bulding)
 function putMaterial(event) {
     if (inventory[material]) {
-        if (event.target.classList.length == 1) {
+        if (event.target.classList.length == 1) { // check there isnt a material class (not taken)
             event.target.classList.add(material)
             inventory[material] -= 1;
             updateInventory();
@@ -161,7 +161,7 @@ function removeOtherEventListeners() {
     game.removeEventListener('click', putMaterial)
 }
 
-// background resetter. (to delete illusions of pickes on other elements)
+// background resetter. (to delete illusions of pickes (or clicked) on other elements)
 function backgroundReset() {
     axe.classList.contains('red') && axe.classList.remove('red');
     axe.classList.contains('blue') && axe.classList.remove('blue');
@@ -169,11 +169,11 @@ function backgroundReset() {
     picaxe.classList.contains('blue') && picaxe.classList.remove('blue');
     shovel.classList.contains('red') && shovel.classList.remove('red');
     shovel.classList.contains('blue') && shovel.classList.remove('blue');
-    grassInventory.style.opacity = 0.85;
-    woodInventory.style.opacity = 0.85;
-    soilInventory.style.opacity = 0.85;
-    leavesInventory.style.opacity = 0.85;
-    rockInventory.style.opacity = 0.85;
+    grassInventory.style.opacity = 0.75;
+    woodInventory.style.opacity = 0.75;
+    soilInventory.style.opacity = 0.75;
+    leavesInventory.style.opacity = 0.75;
+    rockInventory.style.opacity = 0.75;
 }
 
 // change visibility of html elements
@@ -185,21 +185,21 @@ function toggleElementsHidder(el, hide = true) {
 }
 
 // randomize world maker. works with the modify option of the game and pull from input the amount of elements.
-let notExistedLocaions;
+let notExistedLocaions; // array of x grid locations
 
 function randomWorldMaker(trees = 1, rocks = 1, bushes = 1) {
-    trees <= 1 || rocks <= 1 || bushes <= 1 ?
+    trees <= 1 || rocks <= 1 || bushes <= 1 ? // if only one element for each than smaller world. smaller array.
         notExistedLocaions = [...Array(24).keys()] :
         notExistedLocaions = [...Array(49).keys()]; // creating list of location on x grid (columns) 
     notExistedLocaions.shift(); // deletes 0
     notExistedLocaions.shift(); // deletes 1 // to prevent element sitting to close to the starts
 
-    //adjust grid to containe bigger worls
+    //adjust grid to containe bigger world
     game.style.gridTemplateColumns = 'repeat(50, 1fr)'
     game.style.width = '1650px';
     game.style.margin = 0;
 
-    worldCleaner(); //clears deafults
+    worldCleaner(); //clears defaults
     boxGameCreator(1, 20, 25, 50) //creating more boxes and putting them on the grid.
     landScapeMaker('grass', 14, 14, 1, 50) // creating land for the world
     landScapeMaker('soil', 15, 20, 1, 50);
@@ -252,17 +252,24 @@ function boxGameCreator(rowStart = 1, rowEnd = 20, columnStart = 1, columnEnd = 
     }
 }
 
+function inventoryReset() {
+    for (let material of Object.keys(inventory)) { // calibrate inventory
+        inventory[material] = 0;
+    }
+}
+
 // sets timer. each minute (60s) the player gets one added material of each type.
-let timerCounter = 0;
-function timerMaterialReload(){
-    if (timerCounter == 60){ 
-        for (let material of ['grass', 'soil', 'rock', 'leaves', 'wood']){
+let timerCounter = 55;
+
+function timerMaterialReload() {
+    if (timerCounter == 60) {
+        for (let material of ['grass', 'soil', 'rock', 'leaves', 'wood']) {
             inventory[material] ? inventory[material] += 1 : inventory[material] = 1; // adding to inventory
-            updateInventory();
+            updateInventory(); // updated nunmber showen to player
         }
         timerCounter = 1; // resets timer
         timer.innerHTML = `<h4><i class="far fa-grin-tongue-wink"></i></h4>`; //  smiley face to represent stocking
-    }else {
+    } else {
         timer.innerHTML = `<h4>${timerCounter}</h4>`
     }
     timerCounter++
@@ -306,7 +313,7 @@ shovel.addEventListener('click', (e) => {
 // event listners for putting material
 grassInventory.addEventListener('click', (event) => {
     removeOtherEventListeners() // clears other event listners
-    material = 'grass'; // updates the material used
+    material = 'grass'; // updates the currrent material used
     backgroundReset(); //clears clicked effect on others
     grassInventory.style.opacity = 1; // identicate the item as clicked
     game.addEventListener('click', putMaterial); // activate material collection
@@ -348,17 +355,22 @@ leavesInventory.addEventListener('click', (event) => {
 // BUTTONS - 
 // reset button event listener
 resetButton.addEventListener('click', () => {
-    for (let material of Object.keys(inventory)) { // calibrate inventory
-        inventory[material] = 0;
-    }
+    inventoryReset()// calibrate inventory
     updateInventory(); // update amount showen to player.
     worldCleaner();
     basicWorldMaker();
     timerCounter = 0; // resets timer of new resources
 })
 
+// go back to entrence screen -- to menu
+openMainScreen.addEventListener('click', () => {
+    startGameButton.innerHTML = 'return to game'
+    toggleElementsHidder(entrenceScreen, false);
+})
+
 // entrence screen
 startGameButton.addEventListener('click', () => {
+    inventoryReset() // prevents collectin material when on entrence screen
     toggleElementsHidder(entrenceScreen);
     toggleElementsHidder(modifyScreen);
     toggleElementsHidder(instructionScreen);
@@ -396,11 +408,3 @@ startModifyGameButton.addEventListener('click', () => {
     toggleElementsHidder(instructionScreen);
     randomWorldMaker(modifyWorldInputs[0].value, modifyWorldInputs[1].value, modifyWorldInputs[2].value)
 })
-
-openMainScreen.addEventListener('click', () => {
-    startGameButton.innerHTML = 'return to game'
-    toggleElementsHidder(entrenceScreen, false);
-})
-
-
-

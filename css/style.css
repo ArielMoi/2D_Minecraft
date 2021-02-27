@@ -45,7 +45,7 @@ body {
 }
 
 .entrence-screen > div {
-  margin-top: 20vh;
+  margin-top: 25vh;
 }
 
 /* instructions */
@@ -98,7 +98,7 @@ body {
 .modify-window {
   margin: 5px;
   background: rgba(0, 0, 0, 0.712);
-  padding: 30px 50px 50px 50px;
+  padding: 44px 50px 50px 50px;
   color: orangered;
   visibility: hidden;
 }
