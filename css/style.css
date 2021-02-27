@@ -85,19 +85,22 @@
 
 /* viewed screen */
 
+body {
+  overflow: hidden;
+}
+
 .container {
   display: grid;
   grid-template-columns: 6fr 1fr;
 }
 
 /* left side -- Game */
-/* .game-container {
-  max-width: 70vw;
-  margin: 10px;
-  background: red;
-  overflow-y: scroll;
+.game-container {
+  /* max-width: 70vw; */
+  margin: 0;
+  overflow-y: hidden;
   height: 99vh;
-} */
+}
 
 .game-grid--right-side {
   margin: 0 100px;

@@ -35,6 +35,7 @@ const materialObj = {
 function landScapeMaker(material, rowStart = 1, rowEnd = 20, columnStart = 1, columnEnd = 25) {
     for (let row = rowStart; row <= rowEnd; row++) {
         for (let column = columnStart; column <= columnEnd; column++) {
+            // console.log(objOfBoxes[`${row}.${column}`])
             objOfBoxes[`${row}.${column}`].classList.add(material);
         }
     }
@@ -251,7 +252,7 @@ leavesInventory.addEventListener('click', (event) => {
 resetButton.addEventListener('click', () => {
     worldCleaner();
     // basicWorldMaker();
-    randomWorldMaker(2, 2, 2) //--------- ///////////// ---------
+    randomWorldMaker(7, 7, 7) //--------- ///////////// ---------
 })
 
 
@@ -274,10 +275,13 @@ instructionsButton.addEventListener('mouseout', () => {
 
 
 
-function randomLocation(arr) {
+function randomLocation(arr, bush = false) {
     ///// generate location (3 nums of array) and taking them out of array [x grid]
     let location = Math.floor(Math.random() * arr.length);
-    arr.splice(location - 2, 4);
+    console.log(location + ' location from func')
+    bush
+    ? arr.splice(location - 2, 4)
+    : arr.splice(location, 1);
     return location;
 }
 
@@ -286,13 +290,12 @@ function randomLocation(arr) {
 function randomWorldMaker(trees = 1, rocks = 1, bushes = 1) {
     let notExistedLocaions;
     trees == 1 || rocks == 1 || bushes == 1 ?
-        notExistedLocaions = [...Array(26).keys()] :
-        notExistedLocaions = [...Array((trees + rocks + bushes) * 8).keys()] // make x grid as long as the amount of elements
+        notExistedLocaions = [...Array(24).keys()] :
+        notExistedLocaions = [...Array(49).keys()]; // make x grid as long as the amount of elements
+    notExistedLocaions.shift(); // deletes 0
     notExistedLocaions.shift(); // deletes 0
 
-    // game.setAttribute('width', '2000px')
-    // game.style.overFlow = 'scroll';
-    console.log(game)
+    
     game.style.gridTemplateColumns = 'repeat(50, 1fr)'
     game.style.width = '2000px';
 
@@ -307,25 +310,22 @@ function randomWorldMaker(trees = 1, rocks = 1, bushes = 1) {
             indexOfBox++;
         }
     }
-    // console.log(objOfBoxes);
 
-    landMaker();
-    for (let i = 1; i <= trees; i++) { /// use repeat
-        treeMaker(randomLocation(notExistedLocaions));
+    game.style.margin = 0;
+
+    landScapeMaker('grass', 14, 14, 1, 50)
+    landScapeMaker('soil', 15, 20, 1, 50);
+    for (let i = 1; i <= trees; i++) { 
+        let location = randomLocation(notExistedLocaions);
+        treeMaker(notExistedLocaions[location]);
     }
     for (let i = 1; i <= rocks; i++) {
-        rockMaker(randomLocation(notExistedLocaions));
+        let location = randomLocation(notExistedLocaions);
+        rockMaker(notExistedLocaions[randomLocation(notExistedLocaions)]);
+        
     }
     for (let i = 1; i <= bushes; i++) {
-        bushMaker(randomLocation(notExistedLocaions));
+        let location = randomLocation(notExistedLocaions);
+        bushMaker(notExistedLocaions[location]);
     }
-
-    // landMaker();
-    // treeMaker();
-    // rockMaker(13, true);
-    // rockMaker();
-    // bushMaker();
 }
-
-// console.log([...Array(20).keys()])
-// randomWorldMaker()
