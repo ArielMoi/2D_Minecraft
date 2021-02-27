@@ -255,7 +255,7 @@ function boxGameCreator(rowStart = 1, rowEnd = 20, columnStart = 1, columnEnd = 
 function inventoryReset() {
     for (let material of Object.keys(inventory)) { // calibrate inventory
         inventory[material] = 0;
-    }
+    }updateInventory();
 }
 
 // sets timer. each minute (60s) the player gets one added material of each type.
@@ -370,11 +370,18 @@ openMainScreen.addEventListener('click', () => {
 
 // entrence screen
 startGameButton.addEventListener('click', () => {
+    timerCounter = 0; // resets timer of new resources
     inventoryReset() // prevents collectin material when on entrence screen
+    entrenceScreen.style.opacity = 0;
+    entrenceScreen.style.transition = 'all 1.5s'; // animation of fade out
+
     toggleElementsHidder(entrenceScreen);
+    setTimeout(()=>{
+      entrenceScreen.style.opacity = 1;  
+    }, 2000) // set back opacity to reopen window
+    
     toggleElementsHidder(modifyScreen);
     toggleElementsHidder(instructionScreen);
-    timerCounter = 0; // resets timer of new resources
 })
 
 instructionsButton.addEventListener('click', () => {
@@ -382,6 +389,13 @@ instructionsButton.addEventListener('click', () => {
 })
 
 modifyWorldButton.addEventListener('click', () => {
+    toggleElementsHidder(modifyScreen, false);
+})
+instructionsButton.addEventListener('mouseover', () => {
+    toggleElementsHidder(instructionScreen, false);
+})
+
+modifyWorldButton.addEventListener('mouseover', () => {
     toggleElementsHidder(modifyScreen, false);
 })
 

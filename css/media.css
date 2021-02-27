@@ -86,9 +86,17 @@
 /* force player to move to landscape */
 @media only screen and (orientation: portrait) {
   .entrence-screen {
-    background: url("../img/landscape_ask.png");
+    background: black;
     text-align: center;
     overflow: hidden;
+  }
+
+  .entrence-screen::before {
+    content: "Please rotate your phone to landscape";
+    position: absolute;
+    color: #fff;
+    top: 49%;
+    left: 17%;
   }
 
   .entrence-screen button {
