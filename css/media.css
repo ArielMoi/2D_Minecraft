@@ -4,27 +4,22 @@
 }
 
 .instruction-window {
-  width: 295%;
-  bottom: 50px;
-}
-
-.instruction-window h1 {
-  display: none;
+  position: absolute;
+  top: 10%;
 }
 
 .instruction-window p {
-  padding: 6px;
+  padding: 0;
 }
 
 .instruction-window div > img {
-  width: 30px;
+  width: 20px;
 }
 
 .modify-window {
-  width: 220%;
-  height: 60vh;
-  position: relative;
-  right: 60%;
+  position: absolute;
+  top: 10%;
+  left: 10%;
 }
 .modify-window > * {
   margin-bottom: 5px;
@@ -32,7 +27,7 @@
 
 /* screen */
 .container {
-  grid-template-columns: 4fr 1fr;
+  grid-template-columns: 6fr 1fr;
   width: 100%;
 }
 
@@ -53,24 +48,39 @@
 .picaxe,
 .shovel,
 .axe {
-  padding: 2px;
-  width: 35px;
+  padding: 0;
+  width: 25px;
   margin: 5px;
-  margin-left: 0;
-  font-size: 10px;
+  margin-left: 2px;
+  font-size: 8px;
 }
 
 .picaxe > img,
 .shovel > img,
 .axe > img {
-  width: 1.5rem;
+  width: 1rem;
 }
 
 .tool-box--right-side button {
   display: block;
-  width: 70px;
-  height: 13vh;
-  padding: 5px;
+  width: 60px;
+  height: 10vh;
+  padding: 2px;
+  font-size: 10px;
+  display: block;
+  margin: 5px;
+}
+
+.inventory {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 5px;
+  margin-top: 5%;
+}
+
+.item {
+  width: 20px;
+  height: 40px;
 }
 
 /* force player to move to landscape */

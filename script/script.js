@@ -177,6 +177,7 @@ function toggleElementsHidder(el, hide = true) {
 
 // randomize world maker. works with the modify option of the game and pull from input the amount of elements.
 let notExistedLocaions;
+
 function randomWorldMaker(trees = 1, rocks = 1, bushes = 1) {
     trees <= 1 || rocks <= 1 || bushes <= 1 ?
         notExistedLocaions = [...Array(24).keys()] :
@@ -195,7 +196,7 @@ function randomWorldMaker(trees = 1, rocks = 1, bushes = 1) {
     landScapeMaker('soil', 15, 20, 1, 50);
 
     for (let i = 1; i <= trees; i++) { // creating elements for the world (for amount of user choice)
-        let location = Math.floor(Math.random() * notExistedLocaions.length);// pull random index for existed locations
+        let location = Math.floor(Math.random() * notExistedLocaions.length); // pull random index for existed locations
         treeMaker(notExistedLocaions[location]); // creates element
         delete notExistedLocaions[location]; // delete element location from locations list
         notExistedLocaions = notExistedLocaions.filter((el) => el != 'undefined'); // filter the deleted items.
@@ -218,6 +219,7 @@ function randomWorldMaker(trees = 1, rocks = 1, bushes = 1) {
 
 // creating divs. giving them a specific location(row and column), and creating obj of boxes. for future play and positions options.
 let indexOfBox = 0;
+
 function boxGameCreator(rowStart = 1, rowEnd = 20, columnStart = 1, columnEnd = 25) { //starts counting from one for easier number reading (20 and 25 instead of 19 24)
     for (let row = rowStart; row <= rowEnd; row++) {
         for (let column = columnStart; column <= columnEnd; column++) {
@@ -324,20 +326,17 @@ startGameButton.addEventListener('click', () => {
     toggleElementsHidder(instructionScreen);
 })
 
-let instructionsToggler = 0; // to toggle open and close instructions window
 instructionsButton.addEventListener('click', () => {
-    instructionsToggler % 2 == 0 ?
-        toggleElementsHidder(instructionScreen, false) :
-        toggleElementsHidder(instructionScreen);
-    instructionsToggler++;
+    toggleElementsHidder(instructionScreen, false);
 })
 
-let modifyToggler = 0; // to toggle open and close modify window
 modifyWorldButton.addEventListener('click', () => {
-    modifyToggler % 2 == 0 ?
-        toggleElementsHidder(modifyScreen, false) :
-        toggleElementsHidder(modifyScreen);
-    modifyToggler++;
+    toggleElementsHidder(modifyScreen, false);
+})
+
+document.querySelector('.entrence-screen').addEventListener('mouseout', () => {
+    toggleElementsHidder(modifyScreen);
+    toggleElementsHidder(instructionScreen);
 })
 
 startModifyGameButton.addEventListener('click', () => {
