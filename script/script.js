@@ -4,7 +4,7 @@ const axe = document.querySelector('.axe');
 const picaxe = document.querySelector('.picaxe');
 const shovel = document.querySelector('.shovel');
 
-const game = document.querySelector('.game-grid--right-side');
+const game = document.querySelector('.game-grid');
 
 const grassInventory = document.querySelector('.inventory .grass');
 const rockInventory = document.querySelector('.inventory .rock');
@@ -14,9 +14,11 @@ const woodInventory = document.querySelector('.inventory .wood');
 
 const resetButton = document.querySelector('.tool-box--right-side button');
 const entrenceScreen = document.querySelector('.entrence-screen');
-const modifyScreen = document.querySelector('.modify-window')
+const modifyScreen = document.querySelector('.modify-window');
+const instructionScreen = document.querySelector('.instruction-window');
 const [instructionsButton, modifyWorldButton, startModifyGameButton, startGameButton] = document.querySelectorAll('.entrence-screen button');
-const modifyWorldInputs = document.querySelectorAll('input')
+const modifyWorldInputs = document.querySelectorAll('input');
+const openMainScreen = document.querySelectorAll('.tool-box--right-side .btn')[1];
 
 const inventory = {};
 const objOfBoxes = {};
@@ -33,16 +35,16 @@ const materialObj = {
 }
 
 // functions
-
+// create 2d grid for the game
 function landScapeMaker(material, rowStart = 1, rowEnd = 20, columnStart = 1, columnEnd = 25) {
     for (let row = rowStart; row <= rowEnd; row++) {
         for (let column = columnStart; column <= columnEnd; column++) {
-            // console.log(objOfBoxes[`${row}.${column}`])
             objOfBoxes[`${row}.${column}`].classList.add(material);
         }
     }
 }
 
+// basic world builder with set positions
 function landMaker() {
     landScapeMaker('grass', 14, 14, 1, 25)
     landScapeMaker('soil', 15, 20, 1, 25);
@@ -51,6 +53,7 @@ function landMaker() {
     landScapeMaker('cloud', 3, 3, 10, 11);
 }
 
+// x for future random location generator
 function treeMaker(x = 20) {
     landScapeMaker('wood', 10, 13, x, x);
     landScapeMaker('leaves', 7, 9, x - 1, x + 1);
@@ -70,7 +73,7 @@ function bushMaker(x = 5) {
     landScapeMaker('leaves', 12, 12, x + 1, x + 1);
 }
 
-
+// permanent set
 function basicWorldMaker() {
     landMaker();
     treeMaker();
@@ -79,6 +82,7 @@ function basicWorldMaker() {
     bushMaker();
 }
 
+//cleaner for reset option
 function worldCleaner() {
     for (let row = 1; row <= 13; row++) {
         for (let column = 1; column <= 25; column++) {
@@ -89,7 +93,7 @@ function worldCleaner() {
     landMaker();
 }
 
-//collect material functions
+//collect material functions (gamr function of harvesting with a tool)
 function collectMaterial(event) {
     material = event.target.classList[1];
     if (materialObj[tool].includes(material)) {
@@ -122,7 +126,7 @@ function updateInventory() {
     }
 }
 
-// functions to put material
+// functions to put material on game grid (the player bulding)
 function putMaterial(event) {
     if (inventory[material]) {
         if (event.target.classList.length == 1) {
@@ -139,7 +143,7 @@ function removeOtherEventListeners() {
     game.addEventListener('click', putMaterial)
 }
 
-// background resetter. 
+// background resetter. (to delete illusions of pickes on other elements)
 function backgroundReset() {
     axe.classList.contains('red') && axe.classList.remove('red');
     axe.classList.contains('blue') && axe.classList.remove('blue');
@@ -154,7 +158,7 @@ function backgroundReset() {
     rockInventory.style.opacity = 0.85;
 }
 
-// change visibility
+// change visibility of html elements
 function toggleElementsHidder(el, hide = true) {
     hide
         ?
@@ -162,25 +166,71 @@ function toggleElementsHidder(el, hide = true) {
         el.style.visibility = 'visible'
 }
 
-// giving each div a specific location(row and column), and creating obj of boxes.
-let indexOfBox = 0;
-for (let row = 1; row <= 20; row++) { //starts counting from one for easier number reading (20 and 25 instead of 19 24)
-    for (let column = 1; column <= 25; column++) {
-        let box = document.createElement('div');
-        box.classList.add('box');
-        game.appendChild(box);
-        box.style.gridRow = row;
-        box.style.gridColumn = column;
-        objOfBoxes[`${row}.${column}`] = box;
-        indexOfBox++;
+
+function randomLocation(arr, bush = false) {
+    ///// generate location to be use as index. to pull from array remaining locations and use the to randomize world
+    let location = Math.floor(Math.random() * arr.length);
+    console.log(location + ' location from func')
+    bush
+        ?
+        arr.splice(location - 2, 4) :
+        arr.splice(location, 1);
+    return location;
+}
+
+// randomize world maker. works with the modify option of the game and pull from input the amount of elements.
+function randomWorldMaker(trees = 1, rocks = 1, bushes = 1) {
+    let notExistedLocaions;
+    trees == 1 || rocks == 1 || bushes == 1 ?
+        notExistedLocaions = [...Array(24).keys()] :
+        notExistedLocaions = [...Array(49).keys()]; // creating list of location on x grid (columns) 
+    notExistedLocaions.shift(); // deletes 0
+    notExistedLocaions.shift(); // deletes 1 // to prevent element sitting to close to the starts
+
+    //adjust grid to containe bigger worls
+    game.style.gridTemplateColumns = 'repeat(50, 1fr)' 
+    game.style.width = '2000px';
+    game.style.margin = 0; 
+
+    boxGameCreator(1,20,25,50)//creating more boxes and putting them on the grid.
+
+    landScapeMaker('grass', 14, 14, 1, 50) // creating land for the world
+    landScapeMaker('soil', 15, 20, 1, 50);
+    for (let i = 1; i <= trees; i++) { // creating elements for the world (for amount of user choice)
+        let location = randomLocation(notExistedLocaions);
+        treeMaker(notExistedLocaions[location]);
+    }
+    for (let i = 1; i <= rocks; i++) {
+        let location = randomLocation(notExistedLocaions);
+        rockMaker(notExistedLocaions[location]);
+    }
+    for (let i = 1; i <= bushes; i++) {
+        let location = randomLocation(notExistedLocaions);
+        bushMaker(notExistedLocaions[location]);
     }
 }
 
+// creating divs. giving them a specific location(row and column), and creating obj of boxes. for future play and positions options.
+let indexOfBox = 0;
+function boxGameCreator(rowStart = 1, rowEnd = 20, columnStart = 1, columnEnd = 25) {//starts counting from one for easier number reading (20 and 25 instead of 19 24)
+    for (let row = rowStart; row <= rowEnd; row++) { 
+        for (let column = columnStart; column <= columnEnd; column++) {
+            let box = document.createElement('div');
+            box.classList.add('box');
+            game.appendChild(box);
+            box.style.gridRow = row;
+            box.style.gridColumn = column;
+            objOfBoxes[`${row}.${column}`] = box;
+            indexOfBox++;
+        }
+    }
+}
 
 // GAME PLAY -!!-
 
 // making the base world
-basicWorldMaker();
+boxGameCreator(); // creating divs
+basicWorldMaker(); // creating basic world with one of each element
 
 // event listners for tool choise -> collects only the matching material
 axe.addEventListener('click', (e) => {
@@ -256,83 +306,38 @@ resetButton.addEventListener('click', () => {
     basicWorldMaker();
 })
 
-
-
-// entence screen
+// entrence screen
 startGameButton.addEventListener('click', () => {
     toggleElementsHidder(entrenceScreen);
+    toggleElementsHidder(modifyScreen);
+    toggleElementsHidder(instructionScreen);
 })
 
-instructionsButton.addEventListener('mouseover', () => {
-    toggleElementsHidder(document.querySelector('.instruction-window'), false);
-})
 
+let instructionsToggler = 0;// to toggle open and close instructions window
 instructionsButton.addEventListener('click', () => {
-    toggleElementsHidder(document.querySelector('.instruction-window'), false);
+    instructionsToggler % 2 == 0
+    ? toggleElementsHidder(instructionScreen, false)
+    : toggleElementsHidder(instructionScreen);
+    instructionsToggler++; 
 })
 
-instructionsButton.addEventListener('mouseout', () => {
-    toggleElementsHidder(document.querySelector('.instruction-window'));
-})
-
+let modifyToggler = 0; // to toggle open and close modify window
 modifyWorldButton.addEventListener('click', () => {
-    toggleElementsHidder(modifyScreen, false);
-})
-modifyWorldButton.addEventListener('mouseover', () => {
-    toggleElementsHidder(modifyScreen, false);
+    modifyToggler % 2 == 0
+    ? toggleElementsHidder(modifyScreen, false) 
+    :toggleElementsHidder(modifyScreen);
+    modifyToggler++;
 })
 
 startModifyGameButton.addEventListener('click', () => {
+    toggleElementsHidder(entrenceScreen);
+    toggleElementsHidder(modifyScreen);
+    toggleElementsHidder(instructionScreen);
     randomWorldMaker(modifyWorldInputs[0].value, modifyWorldInputs[1].value, modifyWorldInputs[2].value)
 })
 
-function randomLocation(arr, bush = false) {
-    ///// generate location (3 nums of array) and taking them out of array [x grid]
-    let location = Math.floor(Math.random() * arr.length);
-    console.log(location + ' location from func')
-    bush
-    ? arr.splice(location - 2, 4)
-    : arr.splice(location, 1);
-    return location;
-}
-
-function randomWorldMaker(trees = 1, rocks = 1, bushes = 1) {
-    let notExistedLocaions;
-    trees == 1 || rocks == 1 || bushes == 1 ?
-        notExistedLocaions = [...Array(24).keys()] :
-        notExistedLocaions = [...Array(49).keys()]; // make x grid as long as the amount of elements
-    notExistedLocaions.shift(); // deletes 0
-    notExistedLocaions.shift(); // deletes 0
-    
-    game.style.gridTemplateColumns = 'repeat(50, 1fr)'
-    game.style.width = '2000px';
-
-    for (let row = 1; row <= 20; row++) { //starts counting from one for easier number reading (20 and 25 instead of 19 24)
-        for (let column = 25; column <= 50; column++) {
-            let box = document.createElement('div');
-            box.classList.add('box');
-            game.appendChild(box);
-            box.style.gridRow = row;
-            box.style.gridColumn = column;
-            objOfBoxes[`${row}.${column}`] = box;
-            indexOfBox++;
-        }
-    }
-
-    game.style.margin = 0;
-
-    landScapeMaker('grass', 14, 14, 1, 50)
-    landScapeMaker('soil', 15, 20, 1, 50);
-    for (let i = 1; i <= trees; i++) { 
-        let location = randomLocation(notExistedLocaions);
-        treeMaker(notExistedLocaions[location]);
-    }
-    for (let i = 1; i <= rocks; i++) {
-        let location = randomLocation(notExistedLocaions);
-        rockMaker(notExistedLocaions[randomLocation(notExistedLocaions)]);
-    }
-    for (let i = 1; i <= bushes; i++) {
-        let location = randomLocation(notExistedLocaions);
-        bushMaker(notExistedLocaions[location]);
-    }
-}
+openMainScreen.addEventListener('click', () => {
+    startGameButton.innerHTML = 'return to game'
+    toggleElementsHidder(entrenceScreen, false);
+})

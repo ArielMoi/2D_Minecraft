@@ -17,6 +17,7 @@
   border: 1px solid #fff;
   box-shadow: 0 0 5px black;
   color: #fff;
+  border-radius: 10px;
 }
 
 /* Entrence Screen */
@@ -36,9 +37,10 @@
 }
 
 .entrence-screen > div {
-  margin-top: 50%;
+  margin-top: 40%;
 }
 
+/* instructions */
 .instruction-window {
   background: rgba(0, 0, 0, 0.712);
   text-align: center;
@@ -114,7 +116,6 @@
 }
 
 /* viewed screen */
-
 body {
   overflow: hidden;
 }
@@ -125,14 +126,13 @@ body {
 }
 
 /* left side -- Game */
-.game-container {
-  /* max-width: 70vw; */
+.game-container--left-side {
   margin: 0;
   overflow-y: hidden;
   height: 99vh;
 }
 
-.game-grid--right-side {
+.game-grid {
   margin: 0 100px;
   border: 1px solid black;
   height: 100vh;
@@ -140,7 +140,6 @@ body {
   grid-template-columns: repeat(25, 1fr);
   grid-template-rows: repeat(20, 1fr);
   background: rgb(149, 215, 241);
-  /* overflow-x: auto; */
 }
 
 .box {
@@ -163,6 +162,12 @@ body {
   align-items: center;
 }
 
+.tool-box--right-side button {
+  color: #fff;
+  border: 1px solid grey;
+}
+
+/* tools */
 .picaxe,
 .shovel,
 .axe {
@@ -191,11 +196,10 @@ body {
 .tool-box--right-side button {
   width: 150px;
   padding: 5px;
-  margin-top: 20%;
+  margin-top: 8px;
 }
 
 /* inventory */
-
 .inventory {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -253,8 +257,4 @@ body {
 
 .red {
   background: red;
-}
-
-.sky {
-  background: rgb(149, 215, 241);
 }
