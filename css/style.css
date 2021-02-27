@@ -45,10 +45,6 @@ body {
   margin-top: 40%;
 }
 
-.entrence-screen h1 {
-  visibility: hidden;
-}
-
 /* instructions */
 .instruction-window {
   background: rgba(0, 0, 0, 0.712);

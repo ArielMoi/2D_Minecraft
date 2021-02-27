@@ -175,17 +175,6 @@ function toggleElementsHidder(el, hide = true) {
         el.style.visibility = 'visible'
 }
 
-
-function randomLocation(arr, bush = false) {
-    ///// generate location to be use as index. to pull from array remaining locations and use the to randomize world
-    let location = Math.floor(Math.random() * arr.length);
-    bush
-        ?
-        arr.splice((location-1), 3) :
-        arr.splice(location, 1);
-    return location; //// BUG !!!!! dont splice the right elements
-}
-
 // randomize world maker. works with the modify option of the game and pull from input the amount of elements.
 let notExistedLocaions;
 function randomWorldMaker(trees = 1, rocks = 1, bushes = 1) {
@@ -197,7 +186,7 @@ function randomWorldMaker(trees = 1, rocks = 1, bushes = 1) {
 
     //adjust grid to containe bigger worls
     game.style.gridTemplateColumns = 'repeat(50, 1fr)'
-    game.style.width = '1600px';
+    game.style.width = '1650px';
     game.style.margin = 0;
 
     worldCleaner(); //clears deafults
@@ -206,25 +195,29 @@ function randomWorldMaker(trees = 1, rocks = 1, bushes = 1) {
     landScapeMaker('soil', 15, 20, 1, 50);
 
     for (let i = 1; i <= trees; i++) { // creating elements for the world (for amount of user choice)
-        let location = randomLocation(notExistedLocaions);
-        console.log(notExistedLocaions[location] +'\n' + notExistedLocaions)
-        treeMaker(notExistedLocaions[location]); 
+        let location = Math.floor(Math.random() * notExistedLocaions.length);// pull random index for existed locations
+        treeMaker(notExistedLocaions[location]); // creates element
+        delete notExistedLocaions[location]; // delete element location from locations list
+        notExistedLocaions = notExistedLocaions.filter((el) => el != 'undefined'); // filter the deleted items.
     }
     for (let i = 1; i <= rocks; i++) {
-        let location = randomLocation(notExistedLocaions);
-        console.log(notExistedLocaions[location] +'\n' + notExistedLocaions)
+        let location = Math.floor(Math.random() * notExistedLocaions.length);
         rockMaker(notExistedLocaions[location]);
+        delete notExistedLocaions[location];
+        notExistedLocaions = notExistedLocaions.filter((el) => el != 'undefined');
     }
     for (let i = 1; i <= bushes; i++) {
-        let location = randomLocation(notExistedLocaions, true);
-        console.log(notExistedLocaions[location] +'\n' + notExistedLocaions)
+        let location = Math.floor(Math.random() * notExistedLocaions.length);
         bushMaker(notExistedLocaions[location]);
+        delete notExistedLocaions[location + 2];
+        delete notExistedLocaions[location + 1];
+        delete notExistedLocaions[location];
+        notExistedLocaions = notExistedLocaions.filter((el) => el != 'undefined');
     }
 }
 
 // creating divs. giving them a specific location(row and column), and creating obj of boxes. for future play and positions options.
 let indexOfBox = 0;
-
 function boxGameCreator(rowStart = 1, rowEnd = 20, columnStart = 1, columnEnd = 25) { //starts counting from one for easier number reading (20 and 25 instead of 19 24)
     for (let row = rowStart; row <= rowEnd; row++) {
         for (let column = columnStart; column <= columnEnd; column++) {
@@ -243,7 +236,7 @@ function boxGameCreator(rowStart = 1, rowEnd = 20, columnStart = 1, columnEnd = 
 
 // making the base world
 boxGameCreator(); // creating divs
-basicWorldMaker(); // creating basic world with one of each element
+basicWorldMaker(); // creating basic world with one instance of each element
 
 // event listners for tool choise -> collects only the matching material
 axe.addEventListener('click', (e) => {
@@ -313,6 +306,7 @@ leavesInventory.addEventListener('click', (event) => {
 })
 
 
+// BUTTONS - 
 // reset button event listener
 resetButton.addEventListener('click', () => {
     for (let material of Object.keys(inventory)) { // calibrate inventory
@@ -329,7 +323,6 @@ startGameButton.addEventListener('click', () => {
     toggleElementsHidder(modifyScreen);
     toggleElementsHidder(instructionScreen);
 })
-
 
 let instructionsToggler = 0; // to toggle open and close instructions window
 instructionsButton.addEventListener('click', () => {
