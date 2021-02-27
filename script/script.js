@@ -66,8 +66,6 @@ function rockMaker(x = 2, double = false) {
         landScapeMaker('rock', 13, 13, x, x);
 }
 
-
-
 function bushMaker(x = 5) {
     landScapeMaker('leaves', 13, 13, x, x + 2);
     landScapeMaker('leaves', 12, 12, x + 1, x + 1);
@@ -83,10 +81,9 @@ function basicWorldMaker() {
 }
 
 //cleaner for reset option
-let modify;
-function worldCleaner(modify = false) {
+function worldCleaner(columnEnd = 25) {
     for (let row = 1; row <= 13; row++) {
-        for (let column = 1; column <= 25; column++) {
+        for (let column = 1; column <= columnEnd; column++) {
             objOfBoxes[`${row}.${column}`].classList[1] &&
                 objOfBoxes[`${row}.${column}`].classList.remove(`${objOfBoxes[`${row}.${column}`].classList[1]}`);
         }
@@ -97,21 +94,21 @@ function worldCleaner(modify = false) {
 //collect material functions (gamr function of harvesting with a tool)
 function collectMaterial(event) {
     material = event.target.classList[1];
-    // if (tool = 'shovel') { // limit shovel to collect only the higher layer of soil (first layer)
-    //     let [row, column] = [event.target.style.gridRow.slice(0, -6) - 1, parseInt(event.target.style.gridColumn.slice(0, -7))]; // location of one box above
-    //     if (objOfBoxes[`${row}.${column}`].classList.length == 1) { // check if there is material in the one box above // prevent coolecting soil from under ground
-    //         if (materialObj[tool].includes(material)) {
-    //             inventory[material] ? inventory[material] += 1 : inventory[material] = 1;
-    //             event.target.classList.remove(material);
-    //             updateInventory() // updated the written amount
-    //         }
-    //     }
-    // } if (tool == 'axe' || tool == 'picaxe'){
-    //     console.log('---')
-    if(materialObj[tool].includes(material)) {
-        inventory[material] ? inventory[material] += 1 : inventory[material] = 1;
-        event.target.classList.remove(material);
-        updateInventory()
+    if (tool == 'shovel') { // limit shovel to collect only the higher layer of soil (first layer)
+        let [row, column] = [event.target.style.gridRow.slice(0, -6) - 1, parseInt(event.target.style.gridColumn.slice(0, -7))]; // location of one box above
+        if (objOfBoxes[`${row}.${column}`].classList.length == 1) { // check if there is material in the one box above // prevent coolecting soil from under ground
+            if (materialObj[tool].includes(material)) {
+                inventory[material] ? inventory[material] += 1 : inventory[material] = 1;
+                event.target.classList.remove(material);
+                updateInventory() // updated the written amount
+            }
+        }
+    } else {
+        if (materialObj[tool].includes(material)) {
+            inventory[material] ? inventory[material] += 1 : inventory[material] = 1;
+            event.target.classList.remove(material);
+            updateInventory()
+        }
     }
 }
 
@@ -152,7 +149,7 @@ function putMaterial(event) {
 //short cut to remove listeners
 function removeOtherEventListeners() {
     game.removeEventListener('click', collectMaterial)
-    game.addEventListener('click', putMaterial)
+    game.removeEventListener('click', putMaterial)
 }
 
 // background resetter. (to delete illusions of pickes on other elements)
@@ -184,40 +181,43 @@ function randomLocation(arr, bush = false) {
     let location = Math.floor(Math.random() * arr.length);
     bush
         ?
-        arr.splice(location - 2, 4) :
+        arr.splice((location-1), 3) :
         arr.splice(location, 1);
-    return location;
+    return location; //// BUG !!!!! dont splice the right elements
 }
 
 // randomize world maker. works with the modify option of the game and pull from input the amount of elements.
+let notExistedLocaions;
 function randomWorldMaker(trees = 1, rocks = 1, bushes = 1) {
-    let notExistedLocaions;
     trees <= 1 || rocks <= 1 || bushes <= 1 ?
         notExistedLocaions = [...Array(24).keys()] :
         notExistedLocaions = [...Array(49).keys()]; // creating list of location on x grid (columns) 
     notExistedLocaions.shift(); // deletes 0
     notExistedLocaions.shift(); // deletes 1 // to prevent element sitting to close to the starts
-    
+
     //adjust grid to containe bigger worls
     game.style.gridTemplateColumns = 'repeat(50, 1fr)'
-    game.style.width = '2000px';
+    game.style.width = '1600px';
     game.style.margin = 0;
 
-    worldCleaner(true);
+    worldCleaner(); //clears deafults
     boxGameCreator(1, 20, 25, 50) //creating more boxes and putting them on the grid.
     landScapeMaker('grass', 14, 14, 1, 50) // creating land for the world
     landScapeMaker('soil', 15, 20, 1, 50);
 
     for (let i = 1; i <= trees; i++) { // creating elements for the world (for amount of user choice)
         let location = randomLocation(notExistedLocaions);
-        treeMaker(notExistedLocaions[location]);
+        console.log(notExistedLocaions[location] +'\n' + notExistedLocaions)
+        treeMaker(notExistedLocaions[location]); 
     }
     for (let i = 1; i <= rocks; i++) {
         let location = randomLocation(notExistedLocaions);
+        console.log(notExistedLocaions[location] +'\n' + notExistedLocaions)
         rockMaker(notExistedLocaions[location]);
     }
     for (let i = 1; i <= bushes; i++) {
-        let location = randomLocation(notExistedLocaions);
+        let location = randomLocation(notExistedLocaions, true);
+        console.log(notExistedLocaions[location] +'\n' + notExistedLocaions)
         bushMaker(notExistedLocaions[location]);
     }
 }
@@ -315,10 +315,12 @@ leavesInventory.addEventListener('click', (event) => {
 
 // reset button event listener
 resetButton.addEventListener('click', () => {
+    for (let material of Object.keys(inventory)) { // calibrate inventory
+        inventory[material] = 0;
+    }
+    updateInventory(); // update amount showen to player.
     worldCleaner();
-    modify == false && basicWorldMaker();
-    modify && randomWorldMaker(modifyWorldInputs[0].value, modifyWorldInputs[1].value, modifyWorldInputs[2].value);
-    
+    basicWorldMaker();
 })
 
 // entrence screen

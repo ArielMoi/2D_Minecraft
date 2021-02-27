@@ -72,3 +72,16 @@
   height: 13vh;
   padding: 5px;
 }
+
+/* force player to move to landscape */
+@media only screen and (orientation: portrait) {
+  .entrence-screen {
+    background: url("../img/landscape_ask.png");
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .entrence-screen button {
+    visibility: hidden;
+  }
+}

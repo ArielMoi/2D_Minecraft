@@ -22,6 +22,7 @@ body {
   box-shadow: 0 0 5px black;
   color: #fff;
   border-radius: 10px;
+  transition: border-radius 0.5s ease;
 }
 
 /* Entrence Screen */
@@ -42,6 +43,10 @@ body {
 
 .entrence-screen > div {
   margin-top: 40%;
+}
+
+.entrence-screen h1 {
+  visibility: hidden;
 }
 
 /* instructions */
@@ -92,7 +97,7 @@ body {
 
 /* modify */
 .modify-window {
-  margin: 3px;
+  margin: 5px;
   background: rgba(0, 0, 0, 0.712);
   padding: 30px 50px 50px 50px;
   color: orangered;
@@ -261,5 +266,5 @@ body {
 }
 
 .red {
-  background: red;
+  border: 1px solid red;
 }
