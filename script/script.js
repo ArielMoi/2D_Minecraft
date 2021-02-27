@@ -14,7 +14,9 @@ const woodInventory = document.querySelector('.inventory .wood');
 
 const resetButton = document.querySelector('.tool-box--right-side button');
 const entrenceScreen = document.querySelector('.entrence-screen');
-const [instructionsButton, modifyWorldButton, startGameButton] = document.querySelectorAll('.entrence-screen button');
+const modifyScreen = document.querySelector('.modify-window')
+const [instructionsButton, modifyWorldButton, startModifyGameButton, startGameButton] = document.querySelectorAll('.entrence-screen button');
+const modifyWorldInputs = document.querySelectorAll('input')
 
 const inventory = {};
 const objOfBoxes = {};
@@ -251,14 +253,14 @@ leavesInventory.addEventListener('click', (event) => {
 // reset button event listener
 resetButton.addEventListener('click', () => {
     worldCleaner();
-    // basicWorldMaker();
-    randomWorldMaker(7, 7, 7) //--------- ///////////// ---------
+    basicWorldMaker();
 })
+
 
 
 // entence screen
 startGameButton.addEventListener('click', () => {
-    toggleElementsHidder(entrenceScreen)
+    toggleElementsHidder(entrenceScreen);
 })
 
 instructionsButton.addEventListener('mouseover', () => {
@@ -273,7 +275,16 @@ instructionsButton.addEventListener('mouseout', () => {
     toggleElementsHidder(document.querySelector('.instruction-window'));
 })
 
+modifyWorldButton.addEventListener('click', () => {
+    toggleElementsHidder(modifyScreen, false);
+})
+modifyWorldButton.addEventListener('mouseover', () => {
+    toggleElementsHidder(modifyScreen, false);
+})
 
+startModifyGameButton.addEventListener('click', () => {
+    randomWorldMaker(modifyWorldInputs[0].value, modifyWorldInputs[1].value, modifyWorldInputs[2].value)
+})
 
 function randomLocation(arr, bush = false) {
     ///// generate location (3 nums of array) and taking them out of array [x grid]
@@ -285,8 +296,6 @@ function randomLocation(arr, bush = false) {
     return location;
 }
 
-
-
 function randomWorldMaker(trees = 1, rocks = 1, bushes = 1) {
     let notExistedLocaions;
     trees == 1 || rocks == 1 || bushes == 1 ?
@@ -294,7 +303,6 @@ function randomWorldMaker(trees = 1, rocks = 1, bushes = 1) {
         notExistedLocaions = [...Array(49).keys()]; // make x grid as long as the amount of elements
     notExistedLocaions.shift(); // deletes 0
     notExistedLocaions.shift(); // deletes 0
-
     
     game.style.gridTemplateColumns = 'repeat(50, 1fr)'
     game.style.width = '2000px';
@@ -322,7 +330,6 @@ function randomWorldMaker(trees = 1, rocks = 1, bushes = 1) {
     for (let i = 1; i <= rocks; i++) {
         let location = randomLocation(notExistedLocaions);
         rockMaker(notExistedLocaions[randomLocation(notExistedLocaions)]);
-        
     }
     for (let i = 1; i <= bushes; i++) {
         let location = randomLocation(notExistedLocaions);

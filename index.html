@@ -58,7 +58,7 @@
 
     <div class="entrence-screen">
         <div>
-            <button>instructions</button>
+            <button class='btn'>instructions</button>
             <div class="instruction-window">
                 <h1>GAME PLAY</h1>
                 <div>
@@ -91,11 +91,20 @@
             </div>
         </div>
         <div>
-            <button>modify world</button>
-            <div class="modify-window"></div>
+            <button class='btn'>modify world</button>
+            <div class="modify-window">
+                <p>Start a game with more trees, rocks and bushes and more fun!</p>
+                <label for="trees">Amount of trees</label><br>
+                <input type="number" name='trees' max=7 min=0><br>
+                <label for="rocks">Amount of rocks</label><br>
+                <input type="number" name='rocks' max=7 min=0><br>
+                <label for="bushes">Amount of bushes</label><br>
+                <input type="number" name='bushes' max=7 min=0><br>
+                <button class='btn' type="submit">Start Modified Game</button>
+            </div>
         </div>
         <div>
-            <button>start game</button>
+            <button class='btn'>start game</button>
         </div>
     </div>
 
