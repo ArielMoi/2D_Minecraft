@@ -62,12 +62,10 @@
 }
 
 .tool-box--right-side button {
-  display: block;
   width: 60px;
   height: 10vh;
   padding: 2px;
   font-size: 10px;
-  display: block;
   margin: 5px;
 }
 
