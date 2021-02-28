@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "VT323", monospace;
 }
 
 body {
@@ -123,6 +124,14 @@ body {
   border: 1px solid orangered;
 }
 
+.made-by {
+  font-size: 1.5rem;
+  color: #fff;
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+}
+
 /* viewed screen */
 .container {
   display: grid;
@@ -236,8 +245,7 @@ body {
 
 /* player materials */
 .cloud {
-  /* background: url("../img/cloud.png") no-repeat center/cover; */
-  background: #fff;
+  background: url("../img/cloud.png") no-repeat center/cover;
 }
 
 .grass {
@@ -266,10 +274,9 @@ body {
 }
 
 .blue {
-  background: blue;
+  background: rgba(84, 84, 156, 0.527);
 }
 
 .red {
-  /* border: 1px solid red; */
   background: red;
 }
