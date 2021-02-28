@@ -429,5 +429,14 @@ startModifyGameButton.addEventListener('click', () => {
     toggleElementsHidder(instructionScreen);
     inventoryReset();
     timerCounter = 0;
+
+    entrenceScreen.style.opacity = 0;
+    entrenceScreen.style.transition = 'all 1.5s'; // animation of fade out
+
+    toggleElementsHidder(entrenceScreen);
+    setTimeout(() => {
+        entrenceScreen.style.opacity = 1;
+    }, 2000) // set back opacity to reopen window
+
     randomWorldMaker(modifyWorldInputs[0].value, modifyWorldInputs[1].value, modifyWorldInputs[2].value)
 })
