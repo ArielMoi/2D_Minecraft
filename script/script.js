@@ -361,7 +361,6 @@ resetButton.addEventListener('click', () => {
     worldCleaner();
     basicWorldMaker();
     timerCounter = 0; // resets timer of new resources
-
 })
 
 // go back to entrence screen -- to menu
