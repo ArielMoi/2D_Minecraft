@@ -236,7 +236,8 @@ body {
 
 /* player materials */
 .cloud {
-  background: url("../img/cloud.png") no-repeat center/cover;
+  /* background: url("../img/cloud.png") no-repeat center/cover; */
+  background: #fff;
 }
 
 .grass {
