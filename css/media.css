@@ -84,20 +84,21 @@
 /* force player to move to landscape */
 @media only screen and (orientation: portrait) {
   .entrence-screen {
-    background: black;
+    /* background: black; */
     text-align: center;
     overflow: hidden;
   }
 
   .entrence-screen::before {
-    content: "Please rotate your phone to landscape";
+    content: "Please rotate your phone to landscape to better manipulate the game";
     position: absolute;
     color: #fff;
+    font-weight: 900;
     top: 49%;
-    left: 17%;
+    left: 5%;
   }
 
   .entrence-screen button {
-    visibility: hidden;
+    height: 10vh;
   }
 }
