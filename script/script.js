@@ -424,6 +424,7 @@ instructionScreen.addEventListener('mouseout', () => {
 })
 
 startModifyGameButton.addEventListener('click', () => {
+    firstStart = 1;
     toggleElementsHidder(entrenceScreen);
     toggleElementsHidder(modifyScreen);
     toggleElementsHidder(instructionScreen);
