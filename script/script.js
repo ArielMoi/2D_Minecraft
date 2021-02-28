@@ -427,5 +427,7 @@ startModifyGameButton.addEventListener('click', () => {
     toggleElementsHidder(entrenceScreen);
     toggleElementsHidder(modifyScreen);
     toggleElementsHidder(instructionScreen);
+    inventoryReset();
+    timerCounter = 0;
     randomWorldMaker(modifyWorldInputs[0].value, modifyWorldInputs[1].value, modifyWorldInputs[2].value)
 })
