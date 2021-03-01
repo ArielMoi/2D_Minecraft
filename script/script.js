@@ -47,9 +47,9 @@ function landScapeMaker(material, rowStart = 1, rowEnd = 20, columnStart = 1, co
 }
 
 // basic world builder with set positions
-function landMaker() {
-    landScapeMaker('grass', 14, 14, 1, 25)
-    landScapeMaker('soil', 15, 20, 1, 25);
+function landMaker(length = 25) { // grid length
+    landScapeMaker('grass', 14, 14, 1, length)
+    landScapeMaker('soil', 15, 20, 1, length);
     landScapeMaker('cloud', 5, 5, 9, 13);
     landScapeMaker('cloud', 4, 4, 10, 13);
     landScapeMaker('cloud', 3, 3, 10, 11);
@@ -103,22 +103,18 @@ function markAsWorng(event) { // marks box as wrong with red border for 50ms
 //collect material functions (game function of harvesting with a tool)
 function collectMaterial(event) {
     material = event.target.classList[1];
-    if (tool == 'shovel') { // limit only shovel to collect only the higher layer of soil (first layer)
+    // limit mainly the shovel to collect only from material with space near it or any access.
         let [row, column] = [event.target.style.gridRow.slice(0, -6) - 1, parseInt(event.target.style.gridColumn.slice(0, -7))]; // location of one box above
-        if (objOfBoxes[`${row}.${column}`].classList.length == 1) { // check if there is material in the one box above // prevent coolecting soil from under ground
+        if (objOfBoxes[`${row}.${column}`].classList.length == 1 
+        || objOfBoxes[`${row + 1}.${column + 1}`].classList.length == 1 
+        || objOfBoxes[`${row + 1}.${column - 1}`].classList.length == 1 
+        || objOfBoxes[`${row + 2}.${column}`].classList.length == 1 ) { // check if there is material in the one box above // prevent coolecting soil from under ground
             if (materialObj[tool].includes(material)) {
                 inventory[material] ? inventory[material] += 1 : inventory[material] = 1; //// updated inventory obj amounts
                 event.target.classList.remove(material);
                 updateInventory() // updated the written amount
             } else markAsWorng(event);
         } else markAsWorng(event);
-    } else {
-        if (materialObj[tool].includes(material)) {
-            inventory[material] ? inventory[material] += 1 : inventory[material] = 1;
-            event.target.classList.remove(material);
-            updateInventory()
-        } else markAsWorng(event);
-    }
 }
 
 // inventory update the html element to show amount
@@ -260,7 +256,7 @@ function inventoryReset() {
 }
 
 // sets timer. each minute (60s) the player gets one added material of each type.
-let timerCounter = 55;
+let timerCounter = 0;
 
 function timerMaterialReload() {
     if (timerCounter == 60) {
